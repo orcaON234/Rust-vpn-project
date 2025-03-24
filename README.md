@@ -7,3 +7,9 @@ VPNs are crucial for modern network privacy and a prominent experience into netw
 
 
 # Technical Overview
+Checkpoint 1: (4/10)
+We will create the client and server and ensure that there is communication between them.
+(Communication should work even between client and server without VPN system)
+
+Checkpoint 2: (4/22)
+We will implement encryption and decryption.
