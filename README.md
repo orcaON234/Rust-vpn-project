@@ -13,3 +13,10 @@ We will create the client and server and ensure that there is communication betw
 
 Checkpoint 2: (4/22)
 We will implement encryption and decryption.
+
+# References 
+https://www.linkedin.com/pulse/implementing-vpn-server-inrust-luis-soares-m-sc--sqvkf/ 
+wireguard-uapi - crates.io: Rust Package Registry 
+Implementation of wireguard : gluxon/wireguard-uapi-rs 
+Writing a Modern HTTP(S) Tunnel in Rust: https://dzone.com/articles/writing-a-modern-https-tunnel-in-rust
+[Secure Your Rust Server! 🔒 Generate Self-Signed SSL & Enable TLS 🦀] https://www.youtube.com/watch?v=PLWq8RE6zSk
