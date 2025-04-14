@@ -9,14 +9,17 @@ struct IpPacket {
     //dst_ip: String,
     data: String,
 }
-
-fn handle_connection(mut stream: TcpStream) {
+/*
+cmd to run the server:
+//ngrok http http://localhost:12345
+//cargo run --bin external_server
+*/
+async fn handle_connection(mut stream: TcpStream) {
     println!("Client Connected!");
     //create an array to store the data, data received is about 40 bytes.
     let mut buf = [0u8; 128];
     match stream.read(&mut buf) {
         Ok(n) => {
-            //println!("the data byte: {}", buf.len());
 
             let raw_input = String::from_utf8_lossy(&buf[..n]); //turn stream to string
             println!("Raw data received: {}", raw_input);
@@ -59,7 +62,9 @@ fn handle_connection(mut stream: TcpStream) {
         }
     }
 }
-
+//cmd to run the server:
+//cargo run --bin external_server
+//ngrok http --url=terribly-amusing-viper.ngrok-free.app 80
 fn main() {
     let listener = TcpListener::bind("0.0.0.0:12345").expect("Failed to bind this port");
     println!("External server listening on 0.0.0.0:12345");

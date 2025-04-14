@@ -1,10 +1,12 @@
 use std::io::{self, Write};
 use std::net::TcpStream;
 
+
 fn main() {
-    match TcpStream::connect("10.191.17.64:12345") {
+    let port = "0.0.0.0:12345"; // Port to listen on
+    match TcpStream::connect(port) {
         Ok(mut stream) => {
-            println!("Connected to external server at 10.191.17.64:12345");
+            println!("Connected to external server at {}", port);
             print!("Enter payload to send: ");
             io::stdout().flush().unwrap();
 
