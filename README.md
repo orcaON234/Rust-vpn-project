@@ -25,6 +25,8 @@ We will create the client and server and ensure that there is communication betw
 
 Checkpoint 2: (4/22)
 We will implement encryption and decryption.
+This was done using Transport Layer Security (TLS) protocol with the RustLS library.
+A configuration was created using a key and certificate for both client and server: certificate is verified (a handshake of sorts) first. Then the current stream is wrapped in TLS from the client end & 
 
 # Possible Challenges
 1. Implementation of zero-knowledge proof…

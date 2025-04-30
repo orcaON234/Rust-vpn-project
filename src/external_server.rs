@@ -1,7 +1,9 @@
 use std::net::{TcpListener, TcpStream};
-use std::io::{Read, Write};
+use std::io::{Read, Write, BufReader};
 use std::thread;
 use serde::Deserialize;
+use rustls::{server, ServerConfig};
+use rustls::internal::pemfile::{certs, rsa_private_keys};
 
 #[derive(Debug, Deserialize)]
 struct IpPacket {
@@ -65,14 +67,41 @@ async fn handle_connection(mut stream: TcpStream) {
 //cmd to run the server:
 //cargo run --bin external_server
 //ngrok http --url=terribly-amusing-viper.ngrok-free.app 80
+
+
+fn for_encryption() -> ServerConfig {
+    //need to add expect statement for when certificate/key can't be opened.
+    let certificate_file = String::from("some_certificate"); //need to find a certificate file to be able to test this on
+    let key_file: String = String::from("some_key"); //the files are just placeholders.
+    //when file found: File::open(file_name);
+
+    let mut cert_read = BufReader::new(certificate_file);;
+    let mut key_read = BufReader::new(key_file);
+
+    let mut encryption = ServerConfig::new(rustls::NoClientAuth::new()); //client authentication not required.
+    let actual_certificate = certs(&mut cert_read).expect("Failed to read certificate");
+    let actual_key = rsa_private_keys(&mut key_read)[0].clone().expect("Failed to read key");
+    if (actual_key.is_empty() || actual_certificate.is_empty()) {
+        println!("Error: certificate or key is empty");
+        return;
+    }
+    encryption.set_single_cert(actual_certificate, actual_key).expect("Failed");
+    return encryption;
+}
+
 fn main() {
     let listener = TcpListener::bind("0.0.0.0:12345").expect("Failed to bind this port");
+    let this_encryption = Arc::new(for_encryption());
     println!("External server listening on 0.0.0.0:12345");
     for stream in listener.incoming() {
         match stream {
             Ok(tcpstream) => {
                 //create a new thread for every client
-                thread::spawn(|| handle_connection(tcpstream));
+                thread::spawn(move || {
+                    let mut serverconnection = rustls::ServerConnection::new(Arc::clone(&this_encryption)).expect("Failed to connect");
+                    let mut tls_stream = StreamOwned::new(serverconnection, tcpstream);
+                    handle_connection(tcpstream);
+            });
             }
             Err(e) => {
                 println!("Failed to accept connection: {}", e);
@@ -80,3 +109,5 @@ fn main() {
         }
     }
 }
+
+
