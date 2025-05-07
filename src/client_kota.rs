@@ -46,3 +46,39 @@ fn main() {
         }
     }
 }
+
+
+/*  what Ria implemented
+fn main() {
+    let port = "0.0.0.0:12345"; // Port to listen on
+    let client_config = Arc::new(encryptions());
+    match TcpStream::connect(port) {
+        Ok(mut stream) => {
+            println!("Connected to external server at {}", port);
+
+
+            //Wrapping TCPStream with configured TLS:
+            //first configure official name for server, feed the created configuration and server name and modify the current stream
+            let server_name = ServerName::try_from("Host").expect("wrong server");
+            let connection = ClientConnection::new(client_config, server_name);
+            let mut tls_encrypted_stream = StreamOwned::new(connection, stream);
+
+
+            print!("Enter payload to send: ");
+            io::stdout().flush().unwrap();
+
+            let mut payload = String::new();
+            io::stdin().read_line(&mut payload).unwrap();
+
+            if let Err(e) = tls_encrypted_stream.write_all(payload.as_bytes()) {
+                println!("[x] Failed to send payload: {}", e);
+            } else {
+                println!("[<] Payload sent successfully.");
+            }
+        }
+        Err(e) => {
+            println!("[x] Failed to connect to server: {}", e);
+        }
+    }
+}
+*/

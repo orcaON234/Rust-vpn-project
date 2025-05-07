@@ -44,8 +44,7 @@ async fn handle_connection(mut stream: TcpStream) {
                         ("2.2.2.2", "Hello") => "Bonjour",
                         ("3.3.3.3", "Hello") => "Hola",
                         ("4.4.4.4", _) => "Reject! Access from the invalid location",
-                        (_, "Helllllo") => "404 Not Found",
-                        _ => "Unrecognized request",
+                        _ => "404 Not Found",
                     }; //can further improve. this is simplied version
                     //send response back to client, can package into struct if client adds deserialization
                     if let Err(e) = stream.write_all(response.as_bytes()) {
