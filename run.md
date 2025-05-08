@@ -2,7 +2,7 @@
 
 ## Pulling Project
 1. git clone https://github.com/orcaON234/Rust-vpn-project.git
-2. cargo update
+2. cargo update 
 
 split terminal if running both client and server on the same device
 ## Compile and run server.rs:
