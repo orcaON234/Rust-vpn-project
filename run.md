@@ -5,8 +5,8 @@
 2. cargo update
 //split terminal if running both client and server on the same device
 ## Compile and run server.rs:
-//(optional) connect to Web hosting service, for example cloudflare or ngrok
-//(optional ngrok http http://localhost:12345 // Set your local host to receive online requests
+(optional) connect to Web hosting service, for example cloudflare or ngrok
+(optional) ngrok http http://localhost:12345 // Set your local host to receive online requests in cmd
 cargo run --bin external_server
 
 ## Compile and run client.rs:
